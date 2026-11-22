@@ -1,8 +1,8 @@
 import java.math.BigInteger;
 
 public class RSAkey {
-    BigInteger exponent;
-    BigInteger modulus;
+    private final BigInteger exponent;
+    private final BigInteger modulus;
     public RSAkey(BigInteger modulus, BigInteger exponent) {
         this.exponent = exponent;
         this.modulus = modulus;

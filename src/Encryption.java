@@ -33,15 +33,24 @@ public class Encryption {
     // Generates the private key
     private RSAkey generatePrivateKey() {
         // Eulers Totent of p and q
-        BigInteger eulTot = EncryptionMath.EulersTotent(p, q);
+        BigInteger eulTot = EncryptionMath.eulersTotent(p, q);
         // Private exponent (Private)
         BigInteger d = e.modInverse(eulTot);
         return new RSAkey(n, d);
     }
     // Scramble a String
     public BigInteger encryptString(String text) {
+        // Returns 0 if text is empty
+        if (text.isEmpty()) {
+            return BigInteger.ZERO;
+        }
         // Converts the text into bytes
         byte[] textToBytes = text.getBytes(StandardCharsets.UTF_8);
+        // Checks if message is too long to encrypt, and changes it to notify the user
+        if (textToBytes.length >= (n.bitLength()/8)) {
+            text = "!# Message was to big to send #!";
+            textToBytes = text.getBytes(StandardCharsets.UTF_8);
+        }
         // Turns those bytes into a BigInteger number
         BigInteger bytesToNumber = new BigInteger(1, textToBytes);
         // Turns the number into an encrypted number
@@ -51,6 +60,10 @@ public class Encryption {
     public String decryptString(BigInteger cipherText) {
         // Decreypts the cipherText number
         BigInteger decryptNumber = cipherText.modPow(privKey.getExponent(), privKey.getModulus());
+        // Returns an empty string is decrypted number is 0
+        if (decryptNumber.equals(BigInteger.ZERO)) {
+            return "";
+        }
         // Turns that decrypted number into bytes
         byte[] decryptBytes = decryptNumber.toByteArray();
         // Removes an extra 0 byte at the begining if present (0 byte not needed)
