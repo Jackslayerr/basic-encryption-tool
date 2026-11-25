@@ -6,9 +6,9 @@ import gui.MainWindow;
 import logic.Encryption;
 public class Main {
     public static void main(String[] args) {
-        Encryption encrypt = new Encryption();
-        BigInteger secretMessage = encrypt.encryptString("Yo");
-        System.out.println(encrypt.decryptString(secretMessage));
+        
+        // BigInteger secretMessage = encrypt.encryptString("Yo");
+        // System.out.println(encrypt.decryptString(secretMessage));
         SwingUtilities.invokeLater(() -> {
             MainWindow window = new MainWindow();
             window.setVisible(true);

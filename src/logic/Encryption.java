@@ -14,6 +14,7 @@ public class Encryption {
     BigInteger e = BigInteger.valueOf(65537);
     RSAkey pubKey;
     private RSAkey privKey;
+    public BigInteger encryptNumber;
     // Constructor
     public Encryption() {
         // Reassigns values if one of them is divisible by 65537
@@ -74,5 +75,4 @@ public class Encryption {
         // Turns the decrypted bytes back into the orginal message and returns the value
         return new String(decryptBytes, StandardCharsets.UTF_8);
     }
-    
 }

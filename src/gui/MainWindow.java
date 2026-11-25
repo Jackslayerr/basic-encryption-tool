@@ -9,21 +9,23 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import logic.Encryption;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.math.BigInteger;
 
 public class MainWindow extends JFrame {
+    Encryption encrypt = new Encryption();
    public MainWindow() {
     // Basic Window Setup
         setTitle("Basic Encryption Tool");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        int width = this.getWidth();
-        int height = this.getHeight();
     // Main Panel
         JPanel mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -36,7 +38,7 @@ public class MainWindow extends JFrame {
         // CheckBox
             JPanel checkPanel = new JPanel(new GridLayout(3,1));
             // Button Options
-            JRadioButton option1 = new JRadioButton("1");
+            JRadioButton option1 = new JRadioButton("RSA Encryption");
             // JRadioButton option2 = new JRadioButton("2");
             // JRadioButton option3 = new JRadioButton("3");
             // Button Group
@@ -77,5 +79,18 @@ public class MainWindow extends JFrame {
             mainPanel.add(sendMessage, gbc);
     // Add to frame
         add(mainPanel);
+    // FUNCTIONALITY
+        // sendButton Input
+            sendMessage.addActionListener(e -> {
+                String inputText = textInput.getText();
+                if (!(inputText.isEmpty())) {
+                    BigInteger encryptNumber = encrypt.encryptString(inputText);
+                    String decryptMessage = encrypt.decryptString(encryptNumber);
+                    chat.append("[You]: " + inputText + "\n");
+                    chat.append("[Encrypt]: " + encryptNumber + "\n");
+                    chat.append("[Decrypt]: " + decryptMessage + "\n");
+                    textInput.setText("");
+                }
+            });
    }
 }
