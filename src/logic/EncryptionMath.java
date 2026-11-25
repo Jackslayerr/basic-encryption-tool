@@ -1,3 +1,4 @@
+package logic;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 public class EncryptionMath {
