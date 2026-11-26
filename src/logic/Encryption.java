@@ -58,6 +58,24 @@ public class Encryption {
         // Turns the number into an encrypted number
         return bytesToNumber.modPow(e, n);
     }
+    // Scramble a String with a passed public key
+    public BigInteger encryptStringWithPubKey(String text, RSAkey pubKey) {
+        // Returns 0 if text is empty
+        if (text.isEmpty()) {
+            return BigInteger.ZERO;
+        }
+        // Converts the text into bytes
+        byte[] textToBytes = text.getBytes(StandardCharsets.UTF_8);
+        // Checks if message is too long to encrypt, and changes it to notify the user
+        if (textToBytes.length >= (pubKey.getModulus().bitLength()/8)) {
+            text = "!# Message was to big to send #!";
+            textToBytes = text.getBytes(StandardCharsets.UTF_8);
+        }
+        // Turns those bytes into a BigInteger number
+        BigInteger bytesToNumber = new BigInteger(1, textToBytes);
+        // Turns the number into an encrypted number
+        return bytesToNumber.modPow(pubKey.getExponent(), pubKey.getModulus());
+    }
     // Turns the string back into a message
     public String decryptString(BigInteger cipherText) {
         // Decreypts the cipherText number
